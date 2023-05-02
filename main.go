@@ -13,8 +13,12 @@ func main() {
 	router := mux.NewRouter()
 
 	// Define API endpoints
-	router.HandleFunc("/products", controller.GetProduct).Methods("GET")
+	router.HandleFunc("/login", controller.Login).Methods("POST")
+	router.HandleFunc("/profile", controller.ProfileHandler).Methods("GET")
 	router.HandleFunc("/categories", controller.GetCategory).Methods("GET")
+	router.HandleFunc("/products", controller.GetProduct).Methods("GET")
+	router.HandleFunc("/chart", controller.PostChart).Methods("POST")
+	router.HandleFunc("/chart", controller.DeleteChart).Methods("DELETE")
 
 	// Start the server
 	log.Fatal(http.ListenAndServe(":8000", router))
