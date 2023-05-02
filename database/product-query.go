@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/naufan17/e-commerce/app/models"
 	"github.com/naufan17/e-commerce/config"
@@ -37,16 +38,38 @@ func GetAll(ctx context.Context) ([]models.Product, error) {
 
 		if err = rowQuery.Scan(&product.ID,
 			&product.Name,
+			&product.Price,
+			&product.Count,
 		); err != nil {
 			return nil, err
-		}
-
-		if err != nil {
-			log.Fatal(err)
 		}
 
 		products = append(products, product)
 	}
 
 	return products, nil
+}
+
+func Insert(ctx context.Context, product models.Product) error {
+
+	db, err := config.MySQL()
+
+	if err != nil {
+		log.Fatal("Can't connect to MySQL", err)
+	}
+
+	queryText := fmt.Sprintf("INSERT INTO %v (name, price, count, created_at, updated_at) values(%v,'%v',%v,'%v','%v')", table,
+		product.Name,
+		product.Price,
+		product.Count,
+		time.Now().Format(layoutDateTime),
+		time.Now().Format(layoutDateTime))
+
+	_, err = db.ExecContext(ctx, queryText)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
