@@ -1,30 +1,41 @@
 package controller
 
 import (
-	"context"
-	"fmt"
+	"log"
 	"net/http"
 
+	"github.com/naufan17/e-commerce/app/models"
 	"github.com/naufan17/e-commerce/app/resource"
-	"github.com/naufan17/e-commerce/database"
+	"github.com/naufan17/e-commerce/config"
 )
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		ctx, cancel := context.WithCancel(context.Background())
+	db, err := config.MySQL()
 
-		defer cancel()
-
-		products, err := database.GetAllCategories(ctx)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		resource.ResponseJSON(w, products, http.StatusOK)
-		return
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	http.Error(w, "Tidak di ijinkan", http.StatusNotFound)
-	return
+	rows, err := db.Query("SELECT * FROM categories Order By category_id ASC")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer rows.Close()
+
+	categories := make([]models.Category, 0)
+	for rows.Next() {
+		category := models.Category{}
+
+		err := rows.Scan(&category.Category_ID,
+			&category.Category_Name)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		categories = append(categories, category)
+	}
+
+	resource.ResponseJSON(w, categories, http.StatusOK)
 }

@@ -4,16 +4,18 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/naufan17/e-commerce/app/controller"
 )
 
 func main() {
-	http.HandleFunc("/product", controller.GetProduct)
-	http.HandleFunc("/category", controller.GetCategory)
+	// Create a new router
+	router := mux.NewRouter()
 
-	err := http.ListenAndServe(":8000", nil)
+	// Define API endpoints
+	router.HandleFunc("/products", controller.GetProduct).Methods("GET")
+	router.HandleFunc("/categories", controller.GetCategory).Methods("GET")
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Start the server
+	log.Fatal(http.ListenAndServe(":8000", router))
 }

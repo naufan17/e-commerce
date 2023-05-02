@@ -8,8 +8,6 @@ import (
 func ResponseJSON(w http.ResponseWriter, p interface{}, status int) {
 	ubahkeByte, err := json.Marshal(p)
 
-	w.Header().Set("Content-Type", "application/json")
-
 	if err != nil {
 		http.Error(w, "Error", http.StatusBadRequest)
 	}

@@ -17,6 +17,7 @@ var (
 	dsn = fmt.Sprintf("%v:%v@/%v", username, password, database)
 )
 
+// Open a database connection
 func MySQL() (*sql.DB, error) {
 	db, err := sql.Open("mysql", dsn)
 
