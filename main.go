@@ -9,6 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/product", controller.GetProduct)
+	http.HandleFunc("/category", controller.GetCategory)
 
 	err := http.ListenAndServe(":8000", nil)
 

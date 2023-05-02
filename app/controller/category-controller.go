@@ -9,13 +9,13 @@ import (
 	"github.com/naufan17/e-commerce/database"
 )
 
-func GetProduct(w http.ResponseWriter, r *http.Request) {
+func GetCategory(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		ctx, cancel := context.WithCancel(context.Background())
 
 		defer cancel()
 
-		products, err := database.GetAllProducts(ctx)
+		products, err := database.GetAllCategories(ctx)
 
 		if err != nil {
 			fmt.Println(err)

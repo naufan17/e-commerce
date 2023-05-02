@@ -4,18 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/naufan17/e-commerce/app/models"
 	"github.com/naufan17/e-commerce/config"
 )
 
 const (
-	table          = "product"
-	layoutDateTime = "2006-01-02 15:04:05"
+	table_product = "products"
 )
 
-func GetAll(ctx context.Context) ([]models.Product, error) {
+func GetAllProducts(ctx context.Context) ([]models.Product, error) {
 
 	var products []models.Product
 
@@ -25,7 +23,7 @@ func GetAll(ctx context.Context) ([]models.Product, error) {
 		log.Fatal("Cant connect to MySQL", err)
 	}
 
-	queryText := fmt.Sprintf("SELECT * FROM %v Order By id DESC", table)
+	queryText := fmt.Sprintf("SELECT * FROM %v Order By product_id ASC", table_product)
 
 	rowQuery, err := db.QueryContext(ctx, queryText)
 
@@ -36,8 +34,9 @@ func GetAll(ctx context.Context) ([]models.Product, error) {
 	for rowQuery.Next() {
 		var product models.Product
 
-		if err = rowQuery.Scan(&product.ID,
-			&product.Name,
+		if err = rowQuery.Scan(&product.Product_ID,
+			&product.Product_Name,
+			&product.Category_ID,
 			&product.Price,
 			&product.Count,
 		); err != nil {
@@ -48,28 +47,4 @@ func GetAll(ctx context.Context) ([]models.Product, error) {
 	}
 
 	return products, nil
-}
-
-func Insert(ctx context.Context, product models.Product) error {
-
-	db, err := config.MySQL()
-
-	if err != nil {
-		log.Fatal("Can't connect to MySQL", err)
-	}
-
-	queryText := fmt.Sprintf("INSERT INTO %v (name, price, count, created_at, updated_at) values(%v,'%v',%v,'%v','%v')", table,
-		product.Name,
-		product.Price,
-		product.Count,
-		time.Now().Format(layoutDateTime),
-		time.Now().Format(layoutDateTime))
-
-	_, err = db.ExecContext(ctx, queryText)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
