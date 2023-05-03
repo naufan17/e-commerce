@@ -13,6 +13,7 @@ func main() {
 	router := mux.NewRouter()
 
 	// Define API endpoints
+	router.HandleFunc("/register", controller.Register).Methods("POST")
 	router.HandleFunc("/login", controller.Login).Methods("POST")
 	router.HandleFunc("/profile", controller.ProfileHandler).Methods("GET")
 	router.HandleFunc("/categories", controller.GetCategory).Methods("GET")

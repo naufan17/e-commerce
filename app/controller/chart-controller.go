@@ -26,9 +26,6 @@ func PostChart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	id, _ := result.LastInsertId()
-	chart.Chart_ID = int(id)
-
 	resource.ResponseJSON(w, result, http.StatusOK)
 }
 
