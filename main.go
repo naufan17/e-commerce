@@ -18,8 +18,9 @@ func main() {
 	router.HandleFunc("/profile", controller.ProfileHandler).Methods("GET")
 	router.HandleFunc("/categories", controller.GetCategory).Methods("GET")
 	router.HandleFunc("/products", controller.GetProduct).Methods("GET")
-	router.HandleFunc("/chart", controller.PostChart).Methods("POST")
-	router.HandleFunc("/chart", controller.DeleteChart).Methods("DELETE")
+	router.HandleFunc("/carts", controller.GetCart).Methods("GET")
+	// router.HandleFunc("/carts", controller.PostCart).Methods("POST")
+	router.HandleFunc("/carts/{id}", controller.DeleteCart).Methods("DELETE")
 
 	// Start the server
 	log.Fatal(http.ListenAndServe(":8000", router))
