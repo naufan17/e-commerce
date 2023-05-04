@@ -20,7 +20,8 @@ This API is basic implementation of an e-commerce(online store)
 curl -X GET BASE_URL/categories
 ```
 - **Example**
-![Screenshot](/screenshot/GetCategory.png)
+![Screenshot](/screenshots/GetCategory.png)
+
 ### 2. View Product
 - **Method** - `GET` <br>
 - **URL Pattern** - `/products` <br>
@@ -30,7 +31,8 @@ curl -X GET BASE_URL/categories
 curl -X GET BASE_URL/products 
 ```
 - **Example**
-![Screenshot](/screenshot/GetProduct.png)
+![Screenshot](/screenshots/GetProduct.png)
+
 ### 3. View Product by Category
 - **Method** - `GET` <br>
 - **URL Pattern** - `/products?category={category}` <br>
@@ -40,7 +42,8 @@ curl -X GET BASE_URL/products
 curl -X GET BASE_URL/products?=category={category}
 ```
 - **Example**
-![Screenshot](/screenshot/GetProductbyCategory.png)
+![Screenshot](/screenshots/GetProductbyCategory.png)
+
 ### 4. Register User
 - **Method** - `POST` <br>
 - **URL Pattern** - `/register` <br>
@@ -53,7 +56,8 @@ curl -X POST \
 BASE_URL/register
 ```
 - **Example**
-![Screenshot](/screenshot/Register.png)
+![Screenshot](/screenshots/Register.png)
+
 ### 5. Login User
 - **Method** - `POST` <br>
 - **URL Pattern** - `/login` <br>
@@ -66,7 +70,8 @@ curl -X POST \
 BASE_URL/login
 ```
 - **Example**
-![Screenshot](/screenshot/Login.png)
+![Screenshot](/screenshots/Login.png)
+
 ### 6. Add Product to Cart
 - **Method** - `POST` <br>
 - **URL Pattern** - `/cart` <br>
@@ -80,7 +85,8 @@ curl -X POST \
 BASE_URL/cart
 ```
 - **Example**
-![Screenshot](/screenshot/PostCart.png)
+![Screenshot](/screenshots/PostCart.png)
+
 ### 7. View Product in Cart
 - **Method** - `GET` <br>
 - **URL Pattern** - `/cart` <br>
@@ -92,7 +98,8 @@ curl -X GET \
 BASE_URL/cart
 ```
 - **Example**
-![Screenshot](/screenshot/GetCart.png)
+![Screenshot](/screenshots/GetCart.png)
+
 ### 8. Delete Product in Cart
 - **Method** - `DELETE` <br>
 - **URL Pattern** - `/cart/{cart_id}` <br>
@@ -104,4 +111,4 @@ curl -X DELETE \
 BASE_URL/cart/{id}
 ```
 - **Example**
-![Screenshot](/screenshot/DeleteCart.png)
+![Screenshot](/screenshots/DeleteCart.png)
