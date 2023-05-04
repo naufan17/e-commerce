@@ -11,13 +11,11 @@ import (
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
 	db, err := config.MySQL()
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	rows, err := db.Query("SELECT * FROM categories Order By category_id ASC")
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +28,6 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 
 		err := rows.Scan(&category.Category_ID,
 			&category.Category_Name)
-
 		if err != nil {
 			log.Fatal(err)
 		}

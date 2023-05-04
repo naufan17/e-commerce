@@ -11,8 +11,8 @@ import (
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
+	// Open a database connection
 	db, err := config.MySQL()
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,6 +29,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	// Hash Password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Insert Username and Password into database
 	db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", username, hashedPassword)
@@ -46,7 +49,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	db, err := config.MySQL()
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,7 +63,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Query database for user
+	// Query database for user password
 	var dbPassword string
 	db.QueryRow("SELECT password FROM users WHERE username = ?", username).Scan(&dbPassword)
 

@@ -11,7 +11,6 @@ import (
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	db, err := config.MySQL()
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,7 +19,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
 	if category == "" {
 		rows, err := db.Query("SELECT products.product_id, products.product_name, categories.category_name, products.price, products.count FROM products INNER JOIN categories ON products.category_id = categories.category_id ORDER BY product_id ASC")
-
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -36,7 +34,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 				&product.Category_Name,
 				&product.Price,
 				&product.Count)
-
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -46,7 +43,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		rows, err := db.Query("SELECT products.product_id, products.product_name, categories.category_name, products.price, products.count FROM products INNER JOIN categories ON products.category_id = categories.category_id WHERE category_name LIKE ? ORDER BY product_id ASC", category)
-
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -62,7 +58,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 				&product.Category_Name,
 				&product.Price,
 				&product.Count)
-
 			if err != nil {
 				log.Fatal(err)
 			}

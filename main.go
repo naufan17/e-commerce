@@ -19,7 +19,7 @@ func main() {
 	router.HandleFunc("/categories", controller.GetCategory).Methods("GET")
 	router.HandleFunc("/products", controller.GetProduct).Methods("GET")
 	router.HandleFunc("/carts", controller.GetCart).Methods("GET")
-	// router.HandleFunc("/carts", controller.PostCart).Methods("POST")
+	router.HandleFunc("/carts", controller.PostCart).Methods("POST")
 	router.HandleFunc("/carts/{id}", controller.DeleteCart).Methods("DELETE")
 
 	// Start the server
