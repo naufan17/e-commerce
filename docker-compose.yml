@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ecommerce
+    networks:
+      - mysql_network
+  ecommerce:
+    container_name: ecommerce
+    image: ecommerce:1.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+    environment:
+      - PORT=8080
+      - DB_USER=root
+      - DB_PASSWORD=
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=ecommerce
+    networks:
+      - mysql_network
+
+networks:
+  mysql_network:
+
+    
