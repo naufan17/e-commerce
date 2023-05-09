@@ -5,14 +5,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/naufan17/e-commerce/app/middleware"
+	"github.com/naufan17/e-commerce/app/authentication"
 	"github.com/naufan17/e-commerce/config"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
 	// Open a database connection
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +37,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", username, hashedPassword)
 
 	// Create a JWT token for the user
-	tokenString, err := middleware.CreateToken(username)
+	tokenString, err := authentication.CreateToken(username)
 	if err != nil {
 		http.Error(w, "Error creating token", http.StatusInternalServerError)
 		return
@@ -48,7 +48,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,7 +75,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create a JWT token for the user
-	tokenString, err := middleware.CreateToken(username)
+	tokenString, err := authentication.CreateToken(username)
 	if err != nil {
 		http.Error(w, "Error creating token", http.StatusInternalServerError)
 		return
@@ -95,7 +95,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Parse and verify the JWT token
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := middleware.VerifyToken(tokenString)
+	claims, err := authentication.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return

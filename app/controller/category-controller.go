@@ -10,7 +10,7 @@ import (
 )
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}

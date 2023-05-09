@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/naufan17/e-commerce/app/middleware"
+	"github.com/naufan17/e-commerce/app/authentication"
 	"github.com/naufan17/e-commerce/app/models"
 	"github.com/naufan17/e-commerce/app/resource"
 	"github.com/naufan17/e-commerce/config"
@@ -20,13 +20,13 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := middleware.VerifyToken(tokenString)
+	claims, err := authentication.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return
 	}
 
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,13 +62,13 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := middleware.VerifyToken(tokenString)
+	claims, err := authentication.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return
 	}
 
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -96,13 +96,13 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := middleware.VerifyToken(tokenString)
+	claims, err := authentication.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, claims.Username+" Invalid authorization token", http.StatusUnauthorized)
 		return
 	}
 
-	db, err := config.MySQL()
+	db, err := config.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}

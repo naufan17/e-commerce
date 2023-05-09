@@ -23,5 +23,5 @@ func main() {
 	router.HandleFunc("/carts/{id}", controller.DeleteCart).Methods("DELETE")
 
 	// Start the server
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
