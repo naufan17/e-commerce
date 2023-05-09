@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/naufan17/e-commerce/app/controller"
 )
 
@@ -22,6 +25,13 @@ func main() {
 	router.HandleFunc("/carts", controller.PostCart).Methods("POST")
 	router.HandleFunc("/carts/{id}", controller.DeleteCart).Methods("DELETE")
 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	addr := fmt.Sprintf(":%s", os.Getenv("PORT"))
+
 	// Start the server
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(addr, router))
 }

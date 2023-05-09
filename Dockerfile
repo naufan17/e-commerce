@@ -14,14 +14,14 @@ RUN go build -o main .
 EXPOSE 8080
 
 # Set the environment variables for the database
-ENV DB_USER=root
-ENV DB_PASSWORD=
-ENV DB_HOST=localhost
-ENV DB_PORT=3306
-ENV DB_NAME=ecommerce
+# ENV DB_USER=root
+# ENV DB_PASSWORD=
+# ENV DB_HOST=localhost
+# ENV DB_PORT=3306
+# ENV DB_NAME=ecommerce
 
 # Wait for the database to be ready
 # CMD ["sh", "-c", "while ! nc -z $DB_HOST $DB_PORT; do sleep 1; done; ./main"]
 
 # Run the application
-CMD ["go", "run", "/app/main.go"]
+CMD ["/app/main"]
