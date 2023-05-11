@@ -1,12 +1,12 @@
-package controller
+package controllers
 
 import (
 	"log"
 	"net/http"
 
-	"github.com/naufan17/e-commerce/app/models"
-	"github.com/naufan17/e-commerce/app/resource"
-	"github.com/naufan17/e-commerce/config"
+	"github.com/naufan17/e-commerce/app/api/models"
+	"github.com/naufan17/e-commerce/app/api/resource"
+	"github.com/naufan17/e-commerce/app/config"
 )
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {

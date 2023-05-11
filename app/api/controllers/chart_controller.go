@@ -1,4 +1,4 @@
-package controller
+package controllers
 
 import (
 	"fmt"
@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/naufan17/e-commerce/app/authentication"
-	"github.com/naufan17/e-commerce/app/models"
-	"github.com/naufan17/e-commerce/app/resource"
-	"github.com/naufan17/e-commerce/config"
+	"github.com/naufan17/e-commerce/app/api/middleware"
+	"github.com/naufan17/e-commerce/app/api/models"
+	"github.com/naufan17/e-commerce/app/api/resource"
+	"github.com/naufan17/e-commerce/app/config"
 )
 
 func GetCart(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +20,7 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := authentication.VerifyToken(tokenString)
+	claims, err := middleware.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return
@@ -62,7 +62,7 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := authentication.VerifyToken(tokenString)
+	claims, err := middleware.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return
@@ -96,7 +96,7 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := authentication.VerifyToken(tokenString)
+	claims, err := middleware.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, claims.Username+" Invalid authorization token", http.StatusUnauthorized)
 		return

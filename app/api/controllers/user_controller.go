@@ -1,12 +1,12 @@
-package controller
+package controllers
 
 import (
 	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/naufan17/e-commerce/app/authentication"
-	"github.com/naufan17/e-commerce/config"
+	"github.com/naufan17/e-commerce/app/api/middleware"
+	"github.com/naufan17/e-commerce/app/config"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -37,7 +37,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", username, hashedPassword)
 
 	// Create a JWT token for the user
-	tokenString, err := authentication.CreateToken(username)
+	tokenString, err := middleware.CreateToken(username)
 	if err != nil {
 		http.Error(w, "Error creating token", http.StatusInternalServerError)
 		return
@@ -75,7 +75,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create a JWT token for the user
-	tokenString, err := authentication.CreateToken(username)
+	tokenString, err := middleware.CreateToken(username)
 	if err != nil {
 		http.Error(w, "Error creating token", http.StatusInternalServerError)
 		return
@@ -95,7 +95,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Parse and verify the JWT token
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := authentication.VerifyToken(tokenString)
+	claims, err := middleware.VerifyToken(tokenString)
 	if err != nil {
 		http.Error(w, "Invalid authorization token", http.StatusUnauthorized)
 		return
