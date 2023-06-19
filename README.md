@@ -100,7 +100,20 @@ BASE_URL/cart
 - **Example**
 ![Screenshot](/screenshots/GetCart.png)
 
-### 8. Delete Product in Cart
+### 8. Update Product in Cart
+- **Method** - `PUT` <br>
+- **URL Pattern** - `/cart` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X PUT \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/cart
+```
+- **Example**
+![Screenshot](/screenshots/PutCart.png)
+
+### 9. Delete Product in Cart
 - **Method** - `DELETE` <br>
 - **URL Pattern** - `/cart/{cart_id}` <br>
 - **Authentication** - `true` <br>
