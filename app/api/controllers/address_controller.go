@@ -12,7 +12,7 @@ import (
 	"github.com/naufan17/e-commerce/app/config"
 )
 
-func GetCart(w http.ResponseWriter, r *http.Request) {
+func GetAddress(w http.ResponseWriter, r *http.Request) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "Missing authorization token", http.StatusUnauthorized)
@@ -31,30 +31,30 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("SELECT carts.cart_id, products.product_name, products.price, carts.count FROM carts INNER JOIN products ON carts.product_id = products.product_id INNER JOIN users ON carts.user_id = users.user_id WHERE users.username = ? ORDER BY cart_id ASC", claims.Username)
+	rows, err := db.Query("SELECT address.address_id, users.username, address.shipping_address FROM address INNER JOIN users ON address.user_id = users.user_id WHERE users.username = ? ", claims.Username)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer rows.Close()
 
-	carts := make([]models.Cart, 0)
+	addresses := make([]models.Address, 0)
 	for rows.Next() {
-		cart := models.Cart{}
+		address := models.Address{}
 
-		err := rows.Scan(&cart.Cart_ID,
-			&cart.Product_Name,
-			&cart.Price,
-			&cart.Count)
+		err := rows.Scan(&address.Address_ID,
+			&address.Username,
+			&address.Shipping_Address)
 		if err != nil {
 			log.Fatal(err)
 		}
-		carts = append(carts, cart)
+		addresses = append(addresses, address)
 	}
-	resource.ResponseJSON(w, carts, http.StatusOK)
+
+	resource.ResponseJSON(w, addresses, http.StatusOK)
 }
 
-func PostCart(w http.ResponseWriter, r *http.Request) {
+func PostAddress(w http.ResponseWriter, r *http.Request) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "Missing authorization token", http.StatusUnauthorized)
@@ -76,19 +76,18 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	var id string
 	db.QueryRow("SELECT user_id FROM users WHERE username = ?", claims.Username).Scan(&id)
 
-	product_id := r.FormValue("product_id")
-	count := r.FormValue("count")
+	shipping_address := r.FormValue("shipping_address")
 
-	stmt, err := db.Prepare("INSERT INTO carts (user_id, product_id, count) VALUES (?, ?, ?)")
-	_, err = stmt.Exec(id, product_id, count)
+	stmt, err := db.Prepare("INSERT INTO address (user_id, shipping_address) VALUES (?, ?)")
+	_, err = stmt.Exec(id, shipping_address)
 	if err != nil {
-		fmt.Fprintf(w, "Error inserting cart")
+		fmt.Fprintf(w, "Error inserting address")
 	} else {
-		fmt.Fprintf(w, "Cart added successfully")
+		fmt.Fprintf(w, "Address added successfully")
 	}
 }
 
-func PutCart(w http.ResponseWriter, r *http.Request) {
+func PutAddress(w http.ResponseWriter, r *http.Request) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "Missing authorization token", http.StatusUnauthorized)
@@ -110,25 +109,25 @@ func PutCart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	cart_id := r.FormValue("cart_id")
-	count := r.FormValue("count")
+	address_id := r.FormValue("address_id")
+	shipping_address := r.FormValue("shipping_address")
 
-	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", cart_id)
+	_, err = db.Query("SELECT address_id FROM address WHERE address_id = ?", address_id)
 	if err != nil {
-		fmt.Fprintf(w, "Error updating cart")
+		fmt.Fprintf(w, "Error updating address")
 		return
 	}
 
-	stmt, err := db.Prepare("UPDATE carts SET count = ? WHERE cart_id = ?")
-	_, err = stmt.Exec(count, cart_id)
+	stmt, err := db.Prepare("UPDATE address SET shipping_address = ? WHERE address_id = ?")
+	_, err = stmt.Exec(shipping_address, address_id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Cart updated successfully")
+	fmt.Fprintf(w, "Address updated successfully")
 }
 
-func DeleteCart(w http.ResponseWriter, r *http.Request) {
+func DeleteAddress(w http.ResponseWriter, r *http.Request) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "Missing authorization token", http.StatusUnauthorized)
@@ -153,17 +152,17 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
-	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", id)
+	_, err = db.Query("SELECT address_id FROM address WHERE address_id = ?", id)
 	if err != nil {
-		fmt.Fprintf(w, "Error deleting cart")
+		fmt.Fprintf(w, "Error deleting address")
 		return
 	}
 
-	stmt, err := db.Prepare("DELETE FROM carts WHERE cart_id = ?")
+	stmt, err := db.Prepare("DELETE FROM address WHERE address_id = ?")
 	_, err = stmt.Exec(id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Cart deleted successfully")
+	fmt.Fprintf(w, "Address deleted successfully")
 }
