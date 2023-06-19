@@ -15,7 +15,7 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("SELECT * FROM categories Order By category_id ASC")
+	rows, err := db.Query("SELECT category_id, category_name FROM categories Order By category_id ASC")
 	if err != nil {
 		log.Fatal(err)
 	}

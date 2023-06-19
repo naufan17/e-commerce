@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2023 at 03:04 PM
+-- Generation Time: Jun 19, 2023 at 06:03 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -31,18 +31,21 @@ CREATE TABLE `carts` (
   `cart_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
-  `count` int(255) NOT NULL
+  `count` int(255) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `carts`
 --
 
-INSERT INTO `carts` (`cart_id`, `user_id`, `product_id`, `count`) VALUES
-(4, 1, 1, 5),
-(5, 2, 2, 5),
-(11, 2, 1, 4),
-(12, 2, 3, 6);
+INSERT INTO `carts` (`cart_id`, `user_id`, `product_id`, `count`, `created_at`, `updated_at`) VALUES
+(4, 1, 1, 5, '2023-06-19', '2023-06-19'),
+(5, 2, 2, 5, '2023-06-19', '2023-06-19'),
+(11, 2, 1, 4, '2023-06-19', '2023-06-19'),
+(12, 2, 3, 6, '2023-06-19', '2023-06-19'),
+(14, 3, 1, 8, '2023-06-19', '2023-06-19');
 
 -- --------------------------------------------------------
 
@@ -52,18 +55,20 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `product_id`, `count`) VALUES
 
 CREATE TABLE `categories` (
   `category_id` bigint(20) UNSIGNED NOT NULL,
-  `category_name` varchar(255) NOT NULL
+  `category_name` varchar(255) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`category_id`, `category_name`) VALUES
-(1, 'Sepatu'),
-(2, 'Jam Tangan'),
-(3, 'Topi'),
-(4, 'Sendal');
+INSERT INTO `categories` (`category_id`, `category_name`, `created_at`, `updated_at`) VALUES
+(1, 'Sepatu', '2023-06-19', '2023-06-19'),
+(2, 'Jam Tangan', '2023-06-19', '2023-06-19'),
+(3, 'Topi', '2023-06-19', '2023-06-19'),
+(4, 'Sendal', '2023-06-19', '2023-06-19');
 
 -- --------------------------------------------------------
 
@@ -76,18 +81,20 @@ CREATE TABLE `products` (
   `product_name` varchar(255) NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `price` int(225) NOT NULL,
-  `count` int(225) NOT NULL
+  `count` int(225) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `category_id`, `price`, `count`) VALUES
-(1, 'Sepatu Nike', 1, 800000, 15),
-(2, 'Slip on Adidas', 4, 400000, 25),
-(3, 'Topi New York Yankees', 3, 600000, 35),
-(4, 'Jam Tangan Garmin', 2, 2800000, 5);
+INSERT INTO `products` (`product_id`, `product_name`, `category_id`, `price`, `count`, `created_at`, `updated_at`) VALUES
+(1, 'Sepatu Nike', 1, 800000, 15, '2023-06-19', '2023-06-19'),
+(2, 'Slip on Adidas', 4, 400000, 25, '2023-06-19', '2023-06-19'),
+(3, 'Topi New York Yankees', 3, 600000, 35, '2023-06-19', '2023-06-19'),
+(4, 'Jam Tangan Garmin', 2, 2800000, 5, '2023-06-19', '2023-06-19');
 
 -- --------------------------------------------------------
 
@@ -98,18 +105,20 @@ INSERT INTO `products` (`product_id`, `product_name`, `category_id`, `price`, `c
 CREATE TABLE `users` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`) VALUES
-(1, 'username', '$2a$10$vDixET9syF2FHwku7HBxTe3AnQssDhDoZcdawGRpg0bncD8YVQWcO'),
-(2, 'username1', '$2a$10$GCv2QGnDPH56YNYYVX09YuXjERcf7188IJQYRT8r3isvD4nC074Bm'),
-(3, 'username2', '$2a$10$kpcOwDNpNvvkA8RAHdnd2eklJvKbblw97JGhY1i3WicC771deJLLK'),
-(4, 'username3', '$2a$10$h0RHAg3IH8c7sDEKDYycxeFYy5Izf0C81TA0pKYTLWoWh05RMxOJ6');
+INSERT INTO `users` (`user_id`, `username`, `password`, `created_at`, `updated_at`) VALUES
+(1, 'username', '$2a$10$vDixET9syF2FHwku7HBxTe3AnQssDhDoZcdawGRpg0bncD8YVQWcO', '2023-06-19', '2023-06-19'),
+(2, 'username1', '$2a$10$GCv2QGnDPH56YNYYVX09YuXjERcf7188IJQYRT8r3isvD4nC074Bm', '2023-06-19', '2023-06-19'),
+(3, 'username2', '$2a$10$kpcOwDNpNvvkA8RAHdnd2eklJvKbblw97JGhY1i3WicC771deJLLK', '2023-06-19', '2023-06-19'),
+(5, 'username3', '$2a$10$23gcrlOi8ABxgt4a5Ye0NO2mzigAZkLRxh2dN1z6swVQ7XiX5MtGG', '2023-06-19', '2023-06-19');
 
 --
 -- Indexes for dumped tables
@@ -150,7 +159,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cart_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -168,7 +177,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
