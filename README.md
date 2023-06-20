@@ -108,6 +108,8 @@ BASE_URL/cart
 ```
 curl -X PUT \
 -H "Authorization: Bearer <ACCESS_TOKEN>" \
+-d '{ "cart_id": "cart_id", 
+    "count": "count"}' \
 BASE_URL/cart
 ```
 - **Example**
@@ -134,7 +136,7 @@ BASE_URL/cart/{cart_id}
 ```
 curl -X POST \
 -H "Authorization: Bearer <ACCESS_TOKEN>" \
--d '{ "shipping_addres": "shipping_addres"}' \
+-d '{ "shipping_address": "shipping_address"}' \
 BASE_URL/address
 ```
 - **Example**
@@ -161,6 +163,8 @@ BASE_URL/address
 ```
 curl -X PUT \
 -H "Authorization: Bearer <ACCESS_TOKEN>" \
+-d '{ "address_id": "address_id",
+    "shipping_address": "shipping_address"}' \
 BASE_URL/address
 ```
 - **Example**
