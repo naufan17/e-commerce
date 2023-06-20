@@ -121,7 +121,60 @@ BASE_URL/cart
 ```
 curl -X DELETE \
 -H "Authorization: Bearer <ACCESS_TOKEN>" \
-BASE_URL/cart/{id}
+BASE_URL/cart/{cart_id}
 ```
 - **Example**
 ![Screenshot](/screenshots/DeleteCart.png)
+
+### 10. Add Shipping Address
+- **Method** - `POST` <br>
+- **URL Pattern** - `/address` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X POST \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+-d '{ "shipping_addres": "shipping_addres"}' \
+BASE_URL/address
+```
+- **Example**
+![Screenshot](/screenshots/PostAddress.png)
+
+### 11. View Shipping Address
+- **Method** - `GET` <br>
+- **URL Pattern** - `/address` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X GET \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/address
+```
+- **Example**
+![Screenshot](/screenshots/GetAddress.png)
+
+### 12. Update Shipping Address
+- **Method** - `PUT` <br>
+- **URL Pattern** - `/address` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X PUT \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/address
+```
+- **Example**
+![Screenshot](/screenshots/PutAddress.png)
+
+### 13. Delete Shipping Address
+- **Method** - `DELETE` <br>
+- **URL Pattern** - `/address/{address_id}` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X DELETE \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/address/{address_id}
+```
+- **Example**
+![Screenshot](/screenshots/DeleteAddress.png)
