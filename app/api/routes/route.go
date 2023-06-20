@@ -13,11 +13,11 @@ func HandleRoutes(r *mux.Router) {
 	r.HandleFunc("/address", controllers.GetAddress).Methods("GET")
 	r.HandleFunc("/address", controllers.PostAddress).Methods("POST")
 	r.HandleFunc("/address", controllers.PutAddress).Methods("PUT")
-	r.HandleFunc("/address/{id}", controllers.DeleteAddress).Methods("DELETE")
+	r.HandleFunc("/address/{address_id}", controllers.DeleteAddress).Methods("DELETE")
 	r.HandleFunc("/categories", controllers.GetCategory).Methods("GET")
 	r.HandleFunc("/products", controllers.GetProduct).Methods("GET")
 	r.HandleFunc("/carts", controllers.GetCart).Methods("GET")
 	r.HandleFunc("/carts", controllers.PostCart).Methods("POST")
 	r.HandleFunc("/carts", controllers.PutCart).Methods("PUT")
-	r.HandleFunc("/carts/{id}", controllers.DeleteCart).Methods("DELETE")
+	r.HandleFunc("/carts/{cart_id}", controllers.DeleteCart).Methods("DELETE")
 }

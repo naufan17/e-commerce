@@ -31,7 +31,7 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("SELECT carts.cart_id, products.product_name, products.price, carts.count FROM carts INNER JOIN products ON carts.product_id = products.product_id INNER JOIN users ON carts.user_id = users.user_id WHERE users.username = ? ORDER BY cart_id ASC", claims.Username)
+	rows, err := db.Query("SELECT carts.cart_id, products.product_name, products.price, carts.count FROM carts INNER JOIN products ON carts.product_id = products.product_id INNER JOIN users ON carts.user_id = users.user_id WHERE users.username = ? ORDER BY addre_id ASC", claims.Username)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -151,16 +151,16 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	params := mux.Vars(r)
-	id := params["id"]
+	cart_id := params["cart_id"]
 
-	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", id)
+	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", cart_id)
 	if err != nil {
 		fmt.Fprintf(w, "Error deleting cart")
 		return
 	}
 
 	stmt, err := db.Prepare("DELETE FROM carts WHERE cart_id = ?")
-	_, err = stmt.Exec(id)
+	_, err = stmt.Exec(cart_id)
 	if err != nil {
 		log.Fatal(err)
 	}

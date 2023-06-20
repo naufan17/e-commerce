@@ -31,7 +31,7 @@ func GetAddress(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("SELECT address.address_id, users.username, address.shipping_address FROM address INNER JOIN users ON address.user_id = users.user_id WHERE users.username = ? ", claims.Username)
+	rows, err := db.Query("SELECT address.address_id, address.shipping_address FROM address INNER JOIN users ON address.user_id = users.user_id WHERE users.username = ?", claims.Username)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +43,6 @@ func GetAddress(w http.ResponseWriter, r *http.Request) {
 		address := models.Address{}
 
 		err := rows.Scan(&address.Address_ID,
-			&address.Username,
 			&address.Shipping_Address)
 		if err != nil {
 			log.Fatal(err)
@@ -150,16 +149,16 @@ func DeleteAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	params := mux.Vars(r)
-	id := params["id"]
+	address_id := params["address_id"]
 
-	_, err = db.Query("SELECT address_id FROM address WHERE address_id = ?", id)
+	_, err = db.Query("SELECT address_id FROM address WHERE address_id = ?", address_id)
 	if err != nil {
 		fmt.Fprintf(w, "Error deleting address")
 		return
 	}
 
 	stmt, err := db.Prepare("DELETE FROM address WHERE address_id = ?")
-	_, err = stmt.Exec(id)
+	_, err = stmt.Exec(address_id)
 	if err != nil {
 		log.Fatal(err)
 	}
