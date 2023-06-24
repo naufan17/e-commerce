@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/naufan17/e-commerce/app/api/middleware"
+	"github.com/naufan17/e-commerce/app/api/resource"
 	"github.com/naufan17/e-commerce/app/config"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -44,7 +44,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the token in the response body
-	fmt.Fprintf(w, `{"token":"%s"}`, tokenString)
+	resource.ResponseHandler(w, tokenString, http.StatusOK)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -82,7 +82,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the token in the response body
-	fmt.Fprintf(w, `{"token":"%s"}`, tokenString)
+	resource.ResponseHandler(w, tokenString, http.StatusOK)
 }
 
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
@@ -102,5 +102,5 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the username in the response body
-	fmt.Fprintf(w, `{"username":"%s"}`, claims.Username)
+	resource.ResponseHandler(w, claims.Username, http.StatusOK)
 }

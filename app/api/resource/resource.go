@@ -5,13 +5,33 @@ import (
 	"net/http"
 )
 
-func ResponseJSON(w http.ResponseWriter, p interface{}, status int) {
-	toByte, err := json.Marshal(p)
-	if err != nil {
-		http.Error(w, "Error", http.StatusBadRequest)
+type Response struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
+func ResponseHandler(w http.ResponseWriter, data interface{}, status int) {
+	response := Response{
+		Status:  status,
+		Message: "success",
+		Data:    data,
 	}
 
+	ResponseJSON(w, response, http.StatusOK)
+}
+
+func ErrorHandler(w http.ResponseWriter, message string, status int) {
+	response := Response{
+		Status:  status,
+		Message: message,
+	}
+
+	ResponseJSON(w, response, status)
+}
+
+func ResponseJSON(w http.ResponseWriter, data interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	w.Write([]byte(toByte))
+	json.NewEncoder(w).Encode(data)
 }

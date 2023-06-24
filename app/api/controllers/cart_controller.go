@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -30,12 +29,12 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
-	rows, err := db.Query("SELECT carts.cart_id, products.product_name, products.price, carts.count FROM carts INNER JOIN products ON carts.product_id = products.product_id INNER JOIN users ON carts.user_id = users.user_id WHERE users.username = ? ORDER BY addre_id ASC", claims.Username)
+	rows, err := db.Query("SELECT carts.cart_id, products.product_name, products.price, carts.count FROM carts INNER JOIN products ON carts.product_id = products.product_id INNER JOIN users ON carts.user_id = users.user_id WHERE users.username = ? ORDER BY cart_id ASC", claims.Username)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer rows.Close()
 
 	carts := make([]models.Cart, 0)
@@ -51,7 +50,17 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 		}
 		carts = append(carts, cart)
 	}
-	resource.ResponseJSON(w, carts, http.StatusOK)
+
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	if len(carts) == 0 {
+		resource.ErrorHandler(w, "Product not found", http.StatusNotFound)
+		return
+	}
+
+	resource.ResponseHandler(w, carts, http.StatusOK)
 }
 
 func PostCart(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +81,7 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
 	var id string
 	db.QueryRow("SELECT user_id FROM users WHERE username = ?", claims.Username).Scan(&id)
@@ -80,11 +90,25 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	count := r.FormValue("count")
 
 	stmt, err := db.Prepare("INSERT INTO carts (user_id, product_id, count) VALUES (?, ?, ?)")
-	_, err = stmt.Exec(id, product_id, count)
 	if err != nil {
-		fmt.Fprintf(w, "Error inserting cart")
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(id, product_id, count)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected > 0 {
+		resource.ResponseHandler(w, "Product added to cart", http.StatusOK)
 	} else {
-		fmt.Fprintf(w, "Cart added successfully")
+		resource.ErrorHandler(w, "Error inserting product to cart", http.StatusNotFound)
 	}
 }
 
@@ -109,23 +133,32 @@ func PutCart(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
 	cart_id := r.FormValue("cart_id")
 	count := r.FormValue("count")
 
-	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", cart_id)
-	if err != nil {
-		fmt.Fprintf(w, "Error updating cart")
-		return
-	}
-
 	stmt, err := db.Prepare("UPDATE carts SET count = ? WHERE cart_id = ?")
-	_, err = stmt.Exec(count, cart_id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(count, cart_id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Cart updated successfully")
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected > 0 {
+		resource.ResponseHandler(w, "Product in cart updated successfully", http.StatusOK)
+	} else {
+		resource.ErrorHandler(w, "Error updated product in cart", http.StatusNotFound)
+	}
 }
 
 func DeleteCart(w http.ResponseWriter, r *http.Request) {
@@ -149,21 +182,30 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
 	params := mux.Vars(r)
 	cart_id := params["cart_id"]
 
-	_, err = db.Query("SELECT cart_id FROM carts WHERE cart_id = ?", cart_id)
-	if err != nil {
-		fmt.Fprintf(w, "Error deleting cart")
-		return
-	}
-
 	stmt, err := db.Prepare("DELETE FROM carts WHERE cart_id = ?")
-	_, err = stmt.Exec(cart_id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(cart_id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Cart deleted successfully")
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected > 0 {
+		resource.ResponseHandler(w, "Product in cart deleted successfully", http.StatusOK)
+	} else {
+		resource.ErrorHandler(w, "Error deleting product in cart", http.StatusNotFound)
+	}
 }

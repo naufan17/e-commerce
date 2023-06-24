@@ -14,6 +14,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
 	category := r.URL.Query().Get("category")
 
@@ -22,7 +23,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		defer rows.Close()
 
 		products := make([]models.Product, 0)
@@ -39,14 +39,23 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 			}
 			products = append(products, product)
 		}
-		resource.ResponseJSON(w, products, http.StatusOK)
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		if len(products) == 0 {
+			resource.ErrorHandler(w, "Product not found", http.StatusNotFound)
+			return
+		}
+
+		resource.ResponseHandler(w, products, http.StatusOK)
 
 	} else {
 		rows, err := db.Query("SELECT products.product_id, products.product_name, categories.category_name, products.price, products.count FROM products INNER JOIN categories ON products.category_id = categories.category_id WHERE category_name LIKE ? ORDER BY product_id ASC", category)
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		defer rows.Close()
 
 		products := make([]models.Product, 0)
@@ -63,6 +72,16 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 			}
 			products = append(products, product)
 		}
-		resource.ResponseJSON(w, products, http.StatusOK)
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		if len(products) == 0 {
+			resource.ErrorHandler(w, "Product not found", http.StatusNotFound)
+			return
+		}
+
+		resource.ResponseHandler(w, products, http.StatusOK)
 	}
 }
