@@ -5,9 +5,13 @@ This API is basic implementation of an e-commerce(online store)
 - You can diplay product and category data
 - Also can display product by category
 - Authentication is based JWT(JSON Web Token)
-- Register and login to get token
-- User can display, add and delete product from cart
+- Register for new user to get token
+- Login for registered user to get token
+- User can display, add and delete shipping address
+- User can display, add and delete product in cart
+- User can orders product in cart by entering shipping address
 - Built using golang programming language and MySQL database
+- Applications are bundled in containers using Docker
 
 ## API Documentation and Usage
 
