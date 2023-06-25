@@ -72,63 +72,7 @@ BASE_URL/login
 - **Example**
 ![Screenshot](/screenshots/Login.png)
 
-### 6. Add Product to Cart
-- **Method** - `POST` <br>
-- **URL Pattern** - `/cart` <br>
-- **Authentication** - `true` <br>
-- **Usage**
-```
-curl -X POST \
--H "Authorization: Bearer <ACCESS_TOKEN>" \
--d '{ "product_id": "product_id", 
-    "count": "count"}' \
-BASE_URL/cart
-```
-- **Example**
-![Screenshot](/screenshots/PostCart.png)
-
-### 7. View Product in Cart
-- **Method** - `GET` <br>
-- **URL Pattern** - `/cart` <br>
-- **Authentication** - `true` <br>
-- **Usage**
-```
-curl -X GET \
--H "Authorization: Bearer <ACCESS_TOKEN>" \
-BASE_URL/cart
-```
-- **Example**
-![Screenshot](/screenshots/GetCart.png)
-
-### 8. Update Product in Cart
-- **Method** - `PUT` <br>
-- **URL Pattern** - `/cart` <br>
-- **Authentication** - `true` <br>
-- **Usage**
-```
-curl -X PUT \
--H "Authorization: Bearer <ACCESS_TOKEN>" \
--d '{ "cart_id": "cart_id", 
-    "count": "count"}' \
-BASE_URL/cart
-```
-- **Example**
-![Screenshot](/screenshots/PutCart.png)
-
-### 9. Delete Product in Cart
-- **Method** - `DELETE` <br>
-- **URL Pattern** - `/cart/{cart_id}` <br>
-- **Authentication** - `true` <br>
-- **Usage**
-```
-curl -X DELETE \
--H "Authorization: Bearer <ACCESS_TOKEN>" \
-BASE_URL/cart/{cart_id}
-```
-- **Example**
-![Screenshot](/screenshots/DeleteCart.png)
-
-### 10. Add Shipping Address
+### 6. Add Shipping Address
 - **Method** - `POST` <br>
 - **URL Pattern** - `/address` <br>
 - **Authentication** - `true` <br>
@@ -142,7 +86,7 @@ BASE_URL/address
 - **Example**
 ![Screenshot](/screenshots/PostAddress.png)
 
-### 11. View Shipping Address
+### 7. View Shipping Address
 - **Method** - `GET` <br>
 - **URL Pattern** - `/address` <br>
 - **Authentication** - `true` <br>
@@ -155,7 +99,7 @@ BASE_URL/address
 - **Example**
 ![Screenshot](/screenshots/GetAddress.png)
 
-### 12. Update Shipping Address
+### 8. Update Shipping Address
 - **Method** - `PUT` <br>
 - **URL Pattern** - `/address` <br>
 - **Authentication** - `true` <br>
@@ -170,7 +114,7 @@ BASE_URL/address
 - **Example**
 ![Screenshot](/screenshots/PutAddress.png)
 
-### 13. Delete Shipping Address
+### 9. Delete Shipping Address
 - **Method** - `DELETE` <br>
 - **URL Pattern** - `/address/{address_id}` <br>
 - **Authentication** - `true` <br>
@@ -182,3 +126,61 @@ BASE_URL/address/{address_id}
 ```
 - **Example**
 ![Screenshot](/screenshots/DeleteAddress.png)
+
+### 10. Add Product to Cart
+- **Method** - `POST` <br>
+- **URL Pattern** - `/cart` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X POST \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+-d '{ "product_id": "product_id", 
+    "count": "count"}' \
+BASE_URL/cart
+```
+- **Example**
+![Screenshot](/screenshots/PostCart.png)
+
+### 11. View Product in Cart
+- **Method** - `GET` <br>
+- **URL Pattern** - `/cart` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X GET \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/cart
+```
+- **Example**
+![Screenshot](/screenshots/GetCart.png)
+
+### 12. Update Product in Cart
+- **Method** - `PUT` <br>
+- **URL Pattern** - `/cart` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X PUT \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+-d '{ "cart_id": "cart_id", 
+    "count": "count"}' \
+BASE_URL/cart
+```
+- **Example**
+![Screenshot](/screenshots/PutCart.png)
+
+### 13. Delete Product in Cart
+- **Method** - `DELETE` <br>
+- **URL Pattern** - `/cart/{cart_id}` <br>
+- **Authentication** - `true` <br>
+- **Usage**
+```
+curl -X DELETE \
+-H "Authorization: Bearer <ACCESS_TOKEN>" \
+BASE_URL/cart/{cart_id}
+```
+- **Example**
+![Screenshot](/screenshots/DeleteCart.png)
+
+
