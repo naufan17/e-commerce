@@ -24,8 +24,15 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// Wrap the router with a logging middleware
+	loggedRouter := routes.LogRequests(r)
+
+	// Assign port from env file
 	addr := fmt.Sprintf(":%s", os.Getenv("PORT"))
 
+	// Print listening port in terminal
+	fmt.Println("Server listening on port: ", os.Getenv("PORT"))
+
 	// Start the server
-	log.Fatal(http.ListenAndServe(addr, r))
+	log.Fatal(http.ListenAndServe(addr, loggedRouter))
 }
