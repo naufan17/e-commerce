@@ -54,11 +54,11 @@ func GetAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(addresses) == 0 {
-		resource.ErrorHandler(w, "Address not found", http.StatusNotFound)
+		resource.MessageResponse(w, "Address not found", http.StatusNotFound)
 		return
 	}
 
-	resource.ResponseHandler(w, addresses, http.StatusOK)
+	resource.DataResponse(w, addresses, http.StatusOK)
 }
 
 func PostAddress(w http.ResponseWriter, r *http.Request) {
@@ -103,9 +103,9 @@ func PostAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Address added successfully", http.StatusOK)
+		resource.MessageResponse(w, "Address added successfully", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error inserting address", http.StatusNotFound)
+		resource.MessageResponse(w, "Error inserting address", http.StatusNotFound)
 	}
 }
 
@@ -152,9 +152,9 @@ func PutAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Address updated successfully", http.StatusOK)
+		resource.MessageResponse(w, "Address updated successfully", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error updated address", http.StatusNotFound)
+		resource.MessageResponse(w, "Error updated address", http.StatusNotFound)
 	}
 }
 
@@ -201,8 +201,8 @@ func DeleteAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Address deleted successfully", http.StatusOK)
+		resource.MessageResponse(w, "Address deleted successfully", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error deleting address", http.StatusNotFound)
+		resource.MessageResponse(w, "Error deleting address", http.StatusNotFound)
 	}
 }

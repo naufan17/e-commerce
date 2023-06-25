@@ -56,11 +56,11 @@ func GetCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(carts) == 0 {
-		resource.ErrorHandler(w, "Product not found", http.StatusNotFound)
+		resource.MessageResponse(w, "Product not found", http.StatusNotFound)
 		return
 	}
 
-	resource.ResponseHandler(w, carts, http.StatusOK)
+	resource.DataResponse(w, carts, http.StatusOK)
 }
 
 func PostCart(w http.ResponseWriter, r *http.Request) {
@@ -106,9 +106,9 @@ func PostCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Product added to cart", http.StatusOK)
+		resource.MessageResponse(w, "Product added to cart", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error inserting product to cart", http.StatusNotFound)
+		resource.MessageResponse(w, "Error inserting product to cart", http.StatusNotFound)
 	}
 }
 
@@ -155,9 +155,9 @@ func PutCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Product in cart updated successfully", http.StatusOK)
+		resource.MessageResponse(w, "Product in cart updated successfully", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error updated product in cart", http.StatusNotFound)
+		resource.MessageResponse(w, "Error updated product in cart", http.StatusNotFound)
 	}
 }
 
@@ -204,8 +204,8 @@ func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAffected > 0 {
-		resource.ResponseHandler(w, "Product in cart deleted successfully", http.StatusOK)
+		resource.MessageResponse(w, "Product in cart deleted successfully", http.StatusOK)
 	} else {
-		resource.ErrorHandler(w, "Error deleting product in cart", http.StatusNotFound)
+		resource.MessageResponse(w, "Error deleting product in cart", http.StatusNotFound)
 	}
 }

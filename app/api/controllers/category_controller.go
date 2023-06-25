@@ -39,9 +39,9 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(categories) == 0 {
-		resource.ErrorHandler(w, "Category not found", http.StatusNotFound)
+		resource.MessageResponse(w, "Category not found", http.StatusNotFound)
 		return
 	}
 
-	resource.ResponseHandler(w, categories, http.StatusOK)
+	resource.DataResponse(w, categories, http.StatusOK)
 }

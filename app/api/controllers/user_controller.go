@@ -44,7 +44,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the token in the response body
-	resource.ResponseHandler(w, tokenString, http.StatusOK)
+	resource.DataResponse(w, tokenString, http.StatusOK)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -82,7 +82,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the token in the response body
-	resource.ResponseHandler(w, tokenString, http.StatusOK)
+	resource.DataResponse(w, tokenString, http.StatusOK)
 }
 
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
@@ -102,5 +102,5 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the username in the response body
-	resource.ResponseHandler(w, claims.Username, http.StatusOK)
+	resource.DataResponse(w, claims.Username, http.StatusOK)
 }

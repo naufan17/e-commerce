@@ -5,24 +5,29 @@ import (
 	"net/http"
 )
 
-type Response struct {
+type Data struct {
 	Status  int         `json:"status"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
 
-func ResponseHandler(w http.ResponseWriter, data interface{}, status int) {
-	response := Response{
+type Message struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+}
+
+func DataResponse(w http.ResponseWriter, data interface{}, status int) {
+	response := Data{
 		Status:  status,
 		Message: "success",
 		Data:    data,
 	}
 
-	ResponseJSON(w, response, http.StatusOK)
+	ResponseJSON(w, response, status)
 }
 
-func ErrorHandler(w http.ResponseWriter, message string, status int) {
-	response := Response{
+func MessageResponse(w http.ResponseWriter, message string, status int) {
+	response := Message{
 		Status:  status,
 		Message: message,
 	}
@@ -30,8 +35,8 @@ func ErrorHandler(w http.ResponseWriter, message string, status int) {
 	ResponseJSON(w, response, status)
 }
 
-func ResponseJSON(w http.ResponseWriter, data interface{}, status int) {
+func ResponseJSON(w http.ResponseWriter, response interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(response)
 }
